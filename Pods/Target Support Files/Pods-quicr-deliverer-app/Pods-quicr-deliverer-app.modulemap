@@ -1,0 +1,6 @@
+framework module Pods_quicr_deliverer_app {
+  umbrella header "Pods-quicr-deliverer-app-umbrella.h"
+
+  export *
+  module * { export * }
+}
