@@ -9,12 +9,12 @@ import UIKit
 
 class OrderItemCell : TableViewBaseCell {
     
-    var productImage = UIComponents.shared.ImageView(imageName: "test",contentMode: .scaleAspectFit)
-    var nameLabel = UIComponents.shared.label(text: "Kp Hula Hoops Salt & Vinegar 6X24g",fontName: FontName.SemiBold,fontSize: 13)
-    var priceLabel = UIComponents.shared.label(text: "£2.38",alignment: .right,fontName: FontName.SemiBold,fontSize: 13, color: AppTheme.primaryColor)
-    var countLabel = UIComponents.shared.label(text: "1  x",alignment: .center,fontName: FontName.SemiBold)
-    var requestChangeBtn = UIComponents.shared.button(title: "Change / Cancel",fontSize: 12)
+    var productImage = UIComponents.shared.ImageView(imageName: "",contentMode: .scaleAspectFit)
+    var nameLabel = UIComponents.shared.label(text: "",fontName: FontName.SemiBold,fontSize: 13)
+    var priceLabel = UIComponents.shared.label(text: "",alignment: .right,fontName: FontName.SemiBold,fontSize: 13, color: AppTheme.primaryColor)
+    var countLabel = UIComponents.shared.label(text: "",alignment: .center,fontName: FontName.SemiBold)
     let cover = UIComponents.shared.container(bgColor: .white)
+    let notAvailableLabel =  UIComponents.shared.label(text: "Not Available",fontName: FontName.SemiBold,fontSize: 13,color: AppTheme.primaryColor)
     var count = 0
     
     var product : Product? {
@@ -25,7 +25,7 @@ class OrderItemCell : TableViewBaseCell {
             productImage.cacheImage(imageUrl: product.imageURL)
             guard let countInBasket = product.countInBasket else {return}
             countLabel.text = "\(countInBasket)  x"
-            if let availableForOrder = product.availableForOrder {
+            if let availableForOrder = product.notAvailableforOrder {
                 if !availableForOrder {
                     self.markAsNotAvailable()
                 }
@@ -40,8 +40,8 @@ class OrderItemCell : TableViewBaseCell {
     }
     
     override func setupUI() {
-        
-        contentView.addSubViews(views: productImage,nameLabel,priceLabel,countLabel,requestChangeBtn)
+        cover.alpha = 0.5
+        contentView.addSubViews(views: productImage,nameLabel,priceLabel,countLabel,cover,notAvailableLabel)
         NSLayoutConstraint.activate([
             
             countLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
@@ -50,7 +50,7 @@ class OrderItemCell : TableViewBaseCell {
             
             productImage.leadingAnchor.constraint(equalTo: countLabel.trailingAnchor,constant: 16),
             productImage.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 16),
-            productImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -60),
+            productImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -20),
             productImage.widthAnchor.constraint(equalToConstant: 40),
             productImage.heightAnchor.constraint(equalToConstant: 40),
             
@@ -62,39 +62,24 @@ class OrderItemCell : TableViewBaseCell {
             priceLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             priceLabel.widthAnchor.constraint(equalToConstant: 60),
             
-            requestChangeBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            requestChangeBtn.heightAnchor.constraint(equalToConstant: 35),
-            requestChangeBtn.widthAnchor.constraint(equalToConstant: 120),
-            requestChangeBtn.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 16)
+            // not available
+            cover.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cover.topAnchor.constraint(equalTo: contentView.topAnchor),
+            cover.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            cover.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            
-        ])
-    }
-}
-
-
-extension OrderItemCell {
-    func markAsNotAvailable() {
-        contentView.addSubViews(views: cover)
-        
-        requestChangeBtn.setTitle("Not Available", for: .normal)
-        requestChangeBtn.backgroundColor = .clear
-        requestChangeBtn.setTitleColor(AppTheme.red, for: .normal)
-        requestChangeBtn.bringSubviewToFront(cover)
-        
-        cover.alpha = 0.5
-        NSLayoutConstraint.activate([
-            cover.topAnchor.constraint(equalTo: topAnchor),
-            cover.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cover.bottomAnchor.constraint(equalTo: bottomAnchor),
-            cover.trailingAnchor.constraint(equalTo: trailingAnchor)
+            notAvailableLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
+            notAvailableLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -16)
         ])
     }
     
+    func markAsNotAvailable() {
+        cover.isHidden = false
+        notAvailableLabel.isHidden = false
+    }
+    
     func markAsAvailable() {
-        cover.removeFromSuperview()
-        requestChangeBtn.setTitle("Change / Cancel", for: .normal)
-        requestChangeBtn.backgroundColor = AppTheme.blue
-        requestChangeBtn.setTitleColor(.white, for: .normal)
+        cover.isHidden = true
+        notAvailableLabel.isHidden = true
     }
 }

@@ -40,10 +40,11 @@ struct Order : Codable {
         var total : Double = 0.0
         for item in items {
             guard let countInBasket = item.countInBasket else {return 0}
-            if let available = item.availableForOrder {
-                if available {
-                    total = total + (item.quicrPrice * Double(countInBasket))
-                }
+            if let _ = item.notAvailableforOrder {
+                // don't count its price
+            }
+            else {
+                total = total + (item.quicrPrice * Double(countInBasket))
             }
         }
         return total

@@ -58,6 +58,8 @@
 		A9B863C62542F2AC00FA8B78 /* RedHatDisplay-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9B863982542EF6900FA8B78 /* RedHatDisplay-MediumItalic.ttf */; };
 		A9B863C72542F2AE00FA8B78 /* RedHatDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9B863972542EF6900FA8B78 /* RedHatDisplay-Regular.ttf */; };
 		A9DF982425503D240087ED73 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DF982325503D240087ED73 /* Address.swift */; };
+		A9DF987A25515B8F0087ED73 /* ChangeOrderItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DF987925515B8E0087ED73 /* ChangeOrderItemCell.swift */; };
+		A9DF98A325515FEC0087ED73 /* ChangeOrderItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9DF98A225515FEC0087ED73 /* ChangeOrderItemViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,7 +84,7 @@
 		A9744FE425485E0D00C28E20 /* product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = product.swift; sourceTree = "<group>"; };
 		A9744FEB2549850200C28E20 /* OrderRequestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequestsViewModel.swift; sourceTree = "<group>"; };
 		A9744FEF2549925F00C28E20 /* OrderStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatusViewModel.swift; sourceTree = "<group>"; };
-		A9744FF225499A2300C28E20 /* OrderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewModel.swift; sourceTree = "<group>"; };
+		A9744FF225499A2300C28E20 /* OrderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OrderDetailViewModel.swift; path = "../New Group/OrderDetailViewModel.swift"; sourceTree = "<group>"; };
 		A9745052254AE39C00C28E20 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		A9745056254AE3A900C28E20 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		A9745059254AE44D00C28E20 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -116,6 +118,8 @@
 		A9B8639C2542EF6900FA8B78 /* RedHatDisplay-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Black.ttf"; sourceTree = "<group>"; };
 		A9B8639D2542EF6900FA8B78 /* RedHatDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RedHatDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		A9DF982325503D240087ED73 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		A9DF987925515B8E0087ED73 /* ChangeOrderItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeOrderItemCell.swift; sourceTree = "<group>"; };
+		A9DF98A225515FEC0087ED73 /* ChangeOrderItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeOrderItemViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,10 +137,10 @@
 		A9744F772547072B00C28E20 /* order-detail */ = {
 			isa = PBXGroup;
 			children = (
+				A9DF98A025515FC20087ED73 /* view-model */,
 				A9744F7F25470FA200C28E20 /* cell */,
 				A9744F782547075300C28E20 /* OrderDetailViewController.swift */,
 				A9744FC225481D0100C28E20 /* ChangeOrderItemViewController.swift */,
-				A9744FF225499A2300C28E20 /* OrderDetailViewModel.swift */,
 			);
 			path = "order-detail";
 			sourceTree = "<group>";
@@ -148,6 +152,7 @@
 				A9744F832547121C00C28E20 /* AddressCell.swift */,
 				A9744F862547370500C28E20 /* OrderItemCell.swift */,
 				A9744FC525481FE800C28E20 /* OrderTotalCell.swift */,
+				A9DF987925515B8E0087ED73 /* ChangeOrderItemCell.swift */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -398,6 +403,15 @@
 			path = "ui-components";
 			sourceTree = "<group>";
 		};
+		A9DF98A025515FC20087ED73 /* view-model */ = {
+			isa = PBXGroup;
+			children = (
+				A9744FF225499A2300C28E20 /* OrderDetailViewModel.swift */,
+				A9DF98A225515FEC0087ED73 /* ChangeOrderItemViewModel.swift */,
+			);
+			path = "view-model";
+			sourceTree = "<group>";
+		};
 		BB76A169CF09E0DADE332C98 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,7 +564,9 @@
 				A9B863632542E7E900FA8B78 /* BaseViewController.swift in Sources */,
 				A98775CC2546E2500081941E /* LabelCell.swift in Sources */,
 				A9745088254AF15A00C28E20 /* ApiClient.swift in Sources */,
+				A9DF987A25515B8F0087ED73 /* ChangeOrderItemCell.swift in Sources */,
 				A9744FC625481FE800C28E20 /* OrderTotalCell.swift in Sources */,
+				A9DF98A325515FEC0087ED73 /* ChangeOrderItemViewModel.swift in Sources */,
 				A9DF982425503D240087ED73 /* Address.swift in Sources */,
 				A9744FCA254822FB00C28E20 /* OrderRequestsViewController.swift in Sources */,
 				A9745057254AE3A900C28E20 /* PushNotificationSender.swift in Sources */,

@@ -12,6 +12,7 @@ private enum Section {
     case deliveryAddress
     case items
     case orderTotal
+    case changeOrderItems
     case chargeCustomer
 }
 
@@ -19,10 +20,11 @@ fileprivate let reuseIdentifier = "OrderItemCellId"
 
 class OrderDetailViewController  : BaseViewController {
     
-    private var sections : [Section] =  [.status,.deliveryAddress,.items,.orderTotal,.chargeCustomer]
+    private var sections : [Section] =  [.status,.deliveryAddress,.items,.orderTotal,.changeOrderItems,.chargeCustomer]
     var order  : Order?
     var viewModel = OrderDetailViewModel()
-    var chargeBtn = UIComponents.shared.button(title: "Charge Customer",fontSize: 13,bgColor: AppTheme.primaryColor)
+    var changeOrderBtn = UIComponents.shared.button(title: "Not Available? Inform Customer",fontSize: 13,bgColor: AppTheme.blue)
+    var chargeBtn = UIComponents.shared.button(title: "All Items Available. Charge Customer.",fontSize: 13,bgColor: AppTheme.primaryColor)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,7 @@ class OrderDetailViewController  : BaseViewController {
         tableView.register(OrderItemCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         chargeBtn.addTarget(self, action: #selector(didClickChargeCustomer), for: .touchUpInside)
+        changeOrderBtn.addTarget(self, action: #selector(didClickChangeOrCancel(sender:)), for: .touchUpInside)
     }
     
      @objc private func didClickChargeCustomer() {
@@ -55,7 +58,7 @@ extension OrderDetailViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
-        case .status,.deliveryAddress,.orderTotal,.chargeCustomer:
+        case .status,.deliveryAddress,.orderTotal,.changeOrderItems,.chargeCustomer:
             return 1
         case .items:
             guard let orderItems = self.order?.items else {return 0}
@@ -77,8 +80,6 @@ extension OrderDetailViewController {
         case .items:
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! OrderItemCell
             cell.product = self.order?.items[indexPath.row]
-            cell.requestChangeBtn.tag = indexPath.row
-            cell.requestChangeBtn.addTarget(self, action: #selector(didClickChangeOrCancel), for: .touchUpInside)
             return cell
         case .orderTotal:
             let cell = OrderTotalCell()
@@ -86,14 +87,27 @@ extension OrderDetailViewController {
             cell.deliveryLabel.text = self.order?.getDeliveryFee()
             cell.subTotal.text = self.order?.getSubTotal()
             return cell
+        case .changeOrderItems:
+            let cell = UITableViewCell()
+            cell.asBasicCell()
+            cell.contentView.addSubViews(views: changeOrderBtn)
+            NSLayoutConstraint.activate([
+                changeOrderBtn.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 30),
+                changeOrderBtn.heightAnchor.constraint(equalToConstant: 40),
+                changeOrderBtn.trailingAnchor.constraint(equalTo:   cell.contentView.trailingAnchor,constant: -30),
+                changeOrderBtn.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 0),
+                changeOrderBtn.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10)
+            ])
+            cell.removeSeparator()
+            return cell
         case .chargeCustomer:
             let cell = UITableViewCell()
             cell.asBasicCell()
             cell.contentView.addSubViews(views: chargeBtn)
             NSLayoutConstraint.activate([
-                chargeBtn.widthAnchor.constraint(equalToConstant: 140),
+                chargeBtn.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 30),
                 chargeBtn.heightAnchor.constraint(equalToConstant: 40),
-                chargeBtn.trailingAnchor.constraint(equalTo:   cell.contentView.trailingAnchor,constant: -16),
+                chargeBtn.trailingAnchor.constraint(equalTo:   cell.contentView.trailingAnchor,constant: -30),
                 chargeBtn.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 0),
                 chargeBtn.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10)
             ])
@@ -114,7 +128,7 @@ extension OrderDetailViewController {
             headerView.headerLabel.text = "Order Items"
         case .orderTotal:
             headerView.headerLabel.text = "Order Total"
-        case .chargeCustomer:
+        case .chargeCustomer,.changeOrderItems:
             headerView.headerLabel.text = ""
         }
         return headerView
@@ -143,10 +157,8 @@ extension OrderDetailViewController {
     
     @objc func didClickChangeOrCancel(sender : UIButton) {
         let controller = ChangeOrderItemViewController()
-        controller.delegate = self
-        controller.index = sender.tag
-        controller.modalPresentationStyle = .overCurrentContext
-        self.present(controller, animated: true, completion: nil)
+        controller.order = self.order
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -168,18 +180,5 @@ extension OrderDetailViewController : OrderDetailViewModelDelegate {
     func failure(message: String) {
         self.stopAnimating()
         self.alert(message: message)
-    }
-
-}
-
-
-//MARK: ChangeOrderItemDelegate
-extension OrderDetailViewController : ChangeOrderItemDelegate {
-    func markAsUnavailable(index: Int) {
-        guard var order = self.order else {return}
-        order.items[index].availableForOrder = false
-        order.subTotal = order.getItemsTotal()
-        order.total = order.getOrderTotal()
-        self.viewModel.updateOrder(order: order)
     }
 }

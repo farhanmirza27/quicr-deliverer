@@ -32,20 +32,6 @@ class OrderDetailViewModel {
     }
 }
 
-//MARK: Request Change in order or inform user about availability.
-extension OrderDetailViewModel {
-    func updateOrder(order : Order) {
-        FirebaseClient.shared.updateOrder(order: order) { result in
-            switch result {
-            case .success(_):
-                self.delegate?.updateOrder(order: order)
-            case .failure(let error):
-                self.delegate?.failure(message: error.localizedDescription)
-            }
-        }
-    }
-}
-
 //MARK: Observers
 extension OrderDetailViewModel {
     func addOrderObserver(orderId : String) {

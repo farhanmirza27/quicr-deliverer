@@ -33,6 +33,7 @@ class HomeViewController : BaseViewController {
     private func setupUI() {
         hideBackTitle()
         tableView.register(OrderCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         navigationItem.leftBarButtonItem = nil
         navigationItem.title = "Deliverer App"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "account"), style: .plain, target: self, action: #selector(didClickAccount))

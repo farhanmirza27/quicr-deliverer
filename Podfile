@@ -19,4 +19,5 @@ target 'quicr-deliverer-app' do
   pod 'Disk'
   pod 'Stripe'
   pod 'RadioGroup'
+  pod 'SimpleCheckbox'
 end

@@ -6,62 +6,137 @@
 //
 
 import UIKit
+import SimpleCheckbox
 
-protocol ChangeOrderItemDelegate {
-    func markAsUnavailable(index : Int)
+fileprivate let reuseIdentifier = "OrderItemCellId"
+
+private enum Section {
+    case info
+    case items
+    case actions
 }
 
 class ChangeOrderItemViewController : BaseViewController {
-    var headerLabel = UIComponents.shared.label(text: "Inform Customer about Availability",alignment: .center,fontName: FontName.Bold)
-    var container = UIComponents.shared.container(cornerRadius: 10)
-    var notAvailableBtn = UIComponents.shared.button(title: "Mark as not available")
-    var cancelBtn = UIComponents.shared.button(title: "Cancel")
+    private var sections : [Section] = [.info,.items,.actions]
+    var order : Order?
+    var viewModel = ChangeOrderItemViewModel()
+    var confirmBtn = UIComponents.shared.button(title: "Confirm")
     
-    var index : Int?
-    var delegate : ChangeOrderItemDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
+        viewModel.delegate = self
         setupUI()
     }
     
     private func setupUI() {
-        view.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.40)
-        cancelBtn.backgroundColor = .clear
-        cancelBtn.setTitleColor(AppTheme.blue, for: .normal)
-        container.addSubViews(views: headerLabel,notAvailableBtn,cancelBtn)
-        view.addSubViews(views: container)
-        NSLayoutConstraint.activate([
-            container.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            container.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            container.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            headerLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            headerLabel.topAnchor.constraint(equalTo: container.topAnchor,constant: 24),
-
-            notAvailableBtn.heightAnchor.constraint(equalToConstant: 35),
-            notAvailableBtn.widthAnchor.constraint(equalToConstant: 160),
-            notAvailableBtn.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            notAvailableBtn.topAnchor.constraint(equalTo: headerLabel.bottomAnchor,constant: 35),
-        
-            cancelBtn.heightAnchor.constraint(equalToConstant: 35),
-            cancelBtn.widthAnchor.constraint(equalToConstant: 120),
-            cancelBtn.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            cancelBtn.topAnchor.constraint(equalTo: notAvailableBtn.bottomAnchor,constant: 16),
-            cancelBtn.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -24)
- 
-        ])
-        
-        cancelBtn.addTarget(self, action: #selector(didClickCancel), for: .touchUpInside)
-        notAvailableBtn.addTarget(self, action: #selector(didClickNotAvailable), for: .touchUpInside)
+        navigationItem.title = "Request Changes"
+        tableView.register(ChangeOrderItemCell.self, forCellReuseIdentifier: reuseIdentifier)
+        confirmBtn.addTarget(self, action: #selector(didClickConfirm), for: .touchUpInside)
     }
- 
-    @objc func didClickNotAvailable() {
-        guard let index = index else {return}
-        self.delegate?.markAsUnavailable(index: index)
-        self.dismiss(animated: true, completion: nil)
+}
+
+
+extension ChangeOrderItemViewController {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
     }
     
-    @objc func didClickCancel() {
-        self.dismiss(animated: true, completion: nil)
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch sections[section] {
+        case .info:
+        return 0
+        case .items:
+            return order?.items.count ?? 0
+        case .actions:
+            return 1
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch sections[indexPath.section] {
+        case .info:
+        return UITableViewCell()
+        case .items:
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ChangeOrderItemCell
+            cell.product = order?.items[indexPath.row]
+            cell.checkbox.tag = indexPath.row
+            cell.checkbox.addTarget(self, action: #selector(didTapCheckbox), for: .valueChanged)
+            return cell
+        case .actions:
+            let cell = UITableViewCell()
+            cell.asBasicCell()
+            cell.contentView.addSubViews(views: confirmBtn)
+            NSLayoutConstraint.activate([
+                confirmBtn.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor,constant: 30),
+                confirmBtn.heightAnchor.constraint(equalToConstant: 40),
+                confirmBtn.trailingAnchor.constraint(equalTo:   cell.contentView.trailingAnchor,constant: -30),
+                confirmBtn.topAnchor.constraint(equalTo: cell.contentView.topAnchor,constant: 0),
+                confirmBtn.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor,constant: -10)
+            ])
+            cell.removeSeparator()
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = TableHeaderView()
+        switch sections[section] {
+        case .info:
+            headerView.headerLabel.text = "Mark Items which are currently not available"
+            headerView.headerLabel.font = UIFont(name: FontName.Regular, size: 13)
+            headerView.headerLabel.textColor = AppTheme.secondaryBlack
+        case .items:
+            headerView.headerLabel.text = "Order Items"
+        case .actions:
+            headerView.headerLabel.text = ""
+        }
+        return headerView
+    }
+    
+     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch sections[section] {
+        case .info:
+        return 60
+        case .items:
+        return 40
+        case .actions:
+        return 10
+        }
+    }
+}
+
+extension ChangeOrderItemViewController {
+    
+    @objc func didTapCheckbox(sender : Checkbox) {
+        if !viewModel.selectedItemIndexes.contains(sender.tag) {
+            viewModel.selectedItemIndexes.append(sender.tag)
+        }
+        else {
+            guard let index = viewModel.selectedItemIndexes.firstIndex(of: sender.tag) else {return}
+            viewModel.selectedItemIndexes.remove(at: index)
+        }
+    }
+
+    
+    @objc func didClickConfirm() {
+        guard let order  = self.order else {return}
+        self.startAnimating()
+        viewModel.updateOrder(order: order)
+    }
+}
+
+
+
+extension ChangeOrderItemViewController : ChangeOrderItemViewModelDelegate {
+    func success() {
+        self.stopAnimating()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func failure(message: String) {
+        self.stopAnimating()
+        self.alert(message: message)
     }
 }

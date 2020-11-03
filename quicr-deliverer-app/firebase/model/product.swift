@@ -17,7 +17,7 @@ struct Product : Codable {
     
     // for availability
     var outOfStock  : Bool?
-    var availableForOrder : Bool?
+    var notAvailableforOrder : Bool?
     
     
     func getPrice() -> String {

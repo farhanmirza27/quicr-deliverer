@@ -360,6 +360,7 @@ PODS:
   - Protobuf (3.12.0)
   - RadioGroup (1.4.1):
     - SweeterSwift
+  - SimpleCheckbox (2.1.0)
   - Stripe (19.4.0)
   - SVPinView (1.0.9)
   - SweeterSwift (1.1.3)
@@ -376,6 +377,7 @@ DEPENDENCIES:
   - Kingfisher
   - NVActivityIndicatorView (= 4.8.0)
   - RadioGroup
+  - SimpleCheckbox
   - Stripe
   - SVPinView
 
@@ -409,6 +411,7 @@ SPEC REPOS:
     - PromisesObjC
     - Protobuf
     - RadioGroup
+    - SimpleCheckbox
     - Stripe
     - SVPinView
     - SweeterSwift
@@ -442,10 +445,11 @@ SPEC CHECKSUMS:
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   RadioGroup: 6498cc40a548671c1a98738e85aab0d860d13fbc
+  SimpleCheckbox: ddcd433ab8c3a8f57300bebda13151a8f302c7f9
   Stripe: 92f1c73a9dbd3c54277ed06a1fea6e08f20414c6
   SVPinView: 3dd47f5cd5ee67520ab1319a780cc0664735fafe
   SweeterSwift: d909211f6833405628c8c7c6bf9f8f2e8a0e9df9
 
-PODFILE CHECKSUM: df539b4f0df02a55887ef306dcb1506133d51137
+PODFILE CHECKSUM: 672252ab887a20221b76a8206addbb6c85dfe371
 
 COCOAPODS: 1.8.4
