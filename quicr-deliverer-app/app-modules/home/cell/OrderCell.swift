@@ -15,6 +15,7 @@ class OrderCell : TableViewBaseCell {
     var totalLabel = UIComponents.shared.label(text: "£34.56",fontName: FontName.Bold)
     var container = UIComponents.shared.container(bgColor: .white, cornerRadius: 10)
     var arrowIcon = UIComponents.shared.ImageView(imageName : "arrow-head")
+    var deliveryTimeLabel = UIComponents.shared.label(text: "",alignment: .right,fontName: FontName.Bold,fontSize: 13,color: AppTheme.primaryColor)
     
     
     var order : Order? {
@@ -23,6 +24,7 @@ class OrderCell : TableViewBaseCell {
             statusLabel.text = order.status.rawValue
             deliveryAddress.text = order.customerAddress.getAddressString()
             totalLabel.text = order.getTotal()
+            deliveryTimeLabel.text = "Deliver Today at \(order.deliveryTime.toString(dateFormat: "HH:mm"))"
         }
     }
     
@@ -30,7 +32,7 @@ class OrderCell : TableViewBaseCell {
         container.addShadow()
         removeSeparator()
         addSubViews(views: container)
-        container.addSubViews(views: statusLabel,deliverAtLabel,deliveryAddress,totalLabel,arrowIcon)
+        container.addSubViews(views: statusLabel,deliverAtLabel,deliveryAddress,totalLabel,arrowIcon,deliveryTimeLabel)
         NSLayoutConstraint.activate([
             
             statusLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor,constant: 16),
@@ -50,12 +52,15 @@ class OrderCell : TableViewBaseCell {
             container.topAnchor.constraint(equalTo: topAnchor,constant: 16),
             container.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -16),
             container.bottomAnchor.constraint(equalTo: bottomAnchor,constant: 0),
-            container.heightAnchor.constraint(equalToConstant: 130),
+            container.heightAnchor.constraint(equalToConstant: 150),
             
             arrowIcon.centerYAnchor.constraint(equalTo: container.centerYAnchor),
             arrowIcon.widthAnchor.constraint(equalToConstant: 20),
             arrowIcon.heightAnchor.constraint(equalToConstant: 20),
-            arrowIcon.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -16)
+            arrowIcon.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -16),
+            
+            deliveryTimeLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor,constant: -16),
+            deliveryTimeLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -16)
             
         ])
     }

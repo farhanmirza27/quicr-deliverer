@@ -11,7 +11,7 @@ import RadioGroup
 class OrderStatusViewController : BaseViewController {
     var headerLabel = UIComponents.shared.label(text: "Update Order Status",alignment: .center,fontName: FontName.Bold)
     var container = UIComponents.shared.container(cornerRadius: 10)
-    var radioGroup = RadioGroup(titles: ["In Progress", "Delivery In Progress","Delivered"])
+    var radioGroup = RadioGroup(titles: [])
     var doneBtn = UIComponents.shared.button(title: "Done")
     var cancelBtn = UIComponents.shared.button(title: "Cancel")
     var viewModel = OrderStatusViewModel()
@@ -40,7 +40,7 @@ class OrderStatusViewController : BaseViewController {
             headerLabel.topAnchor.constraint(equalTo: container.topAnchor,constant: 24),
             
             radioGroup.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            radioGroup.heightAnchor.constraint(equalToConstant: 160),
+            radioGroup.heightAnchor.constraint(equalToConstant: 40),
             radioGroup.topAnchor.constraint(equalTo: headerLabel.bottomAnchor,constant: 16),
             
             doneBtn.heightAnchor.constraint(equalToConstant: 35),
@@ -61,6 +61,18 @@ class OrderStatusViewController : BaseViewController {
     }
     
     private func configRadioGroup() {
+        guard let orderStatus = self.order?.status else {return}
+        switch orderStatus {
+        case .accepted:
+        radioGroup = RadioGroup(titles: ["In Progress"])
+        case .inProgress:
+        radioGroup = RadioGroup(titles: ["Delivery In Progress"])
+        case .deliveryInProgress:
+        radioGroup = RadioGroup(titles: ["Delivered"])
+        default:
+        break
+        }
+
         radioGroup.titleFont = UIFont(name: FontName.SemiBold, size: 13)
         radioGroup.tintColor = AppTheme.primaryColor
         radioGroup.spacing = 16
@@ -70,13 +82,13 @@ class OrderStatusViewController : BaseViewController {
     @objc func didClickDone() {
         guard let order = self.order else {return}
         var orderStatus = order.status
-        switch radioGroup.selectedIndex {
-        case 0:
-        orderStatus = OrderStatus.inProgress
-        case 1:
-        orderStatus = OrderStatus.deliveryInProgress
-        case 2:
-        orderStatus = OrderStatus.delivered
+        switch orderStatus {
+        case .accepted:
+        orderStatus = .inProgress
+        case .inProgress:
+        orderStatus = .deliveryInProgress
+        case .deliveryInProgress:
+        orderStatus = .delivered
         default:
         break
         }

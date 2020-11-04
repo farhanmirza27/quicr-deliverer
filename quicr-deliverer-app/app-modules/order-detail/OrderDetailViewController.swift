@@ -14,6 +14,7 @@ private enum Section {
     case orderTotal
     case changeOrderItems
     case chargeCustomer
+    case chargedInfo
 }
 
 fileprivate let reuseIdentifier = "OrderItemCellId"
@@ -43,7 +44,7 @@ class OrderDetailViewController  : BaseViewController {
         changeOrderBtn.addTarget(self, action: #selector(didClickChangeOrCancel(sender:)), for: .touchUpInside)
     }
     
-     @objc private func didClickChargeCustomer() {
+    @objc private func didClickChargeCustomer() {
         guard let order = self.order else {return}
         self.startAnimating()
         self.viewModel.chargeCustomer(order: order)
@@ -60,6 +61,8 @@ extension OrderDetailViewController {
         switch sections[section] {
         case .status,.deliveryAddress,.orderTotal,.changeOrderItems,.chargeCustomer:
             return 1
+        case .chargedInfo:
+            return 0
         case .items:
             guard let orderItems = self.order?.items else {return 0}
             return orderItems.count
@@ -113,6 +116,8 @@ extension OrderDetailViewController {
             ])
             cell.removeSeparator()
             return cell
+        case .chargedInfo:
+           return UITableViewCell()
         }
     }
     
@@ -130,6 +135,9 @@ extension OrderDetailViewController {
             headerView.headerLabel.text = "Order Total"
         case .chargeCustomer,.changeOrderItems:
             headerView.headerLabel.text = ""
+        case .chargedInfo:
+            headerView.headerLabel.textAlignment = .right
+            headerView.headerLabel.text = "Customer Charged for this order."
         }
         return headerView
     }
@@ -141,7 +149,7 @@ extension OrderDetailViewController {
         default:
             return 40
         }
-
+        
     }
 }
 
@@ -174,6 +182,14 @@ extension OrderDetailViewController : OrderDetailViewModelDelegate {
     func updateOrder(order: Order) {
         self.stopAnimating()
         self.order = order
+        
+        if let _ = order.customerCharged {
+            sections = [.status,.deliveryAddress,.items,.orderTotal,.chargedInfo]
+        }
+        else {
+            sections =  [.status,.deliveryAddress,.items,.orderTotal,.changeOrderItems,.chargeCustomer]
+        }
+        
         self.tableView.reloadData()
     }
     

@@ -19,11 +19,12 @@ class OrderDetailViewModel {
     // Charge Customer..
     func chargeCustomer(order : Order) {
         guard let customerId = order.stripeCustomerId, let paymentId = order.stripePaymentId else {return}
-        ApiClient.shared.processPayment(customerId: customerId, paymentId: paymentId, amount:  order.total.round(to: 2)) { result in
+        let total = order.total.rounded()
+        ApiClient.shared.processPayment(customerId: customerId, paymentId: paymentId, amount:  total) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(_):
-                    self.delegate?.chargeCustomerSuccess()
+                    self.updateOrder(order: order)
                 case .failure(let error):
                     self.delegate?.failure(message: error.localizedDescription)
                 }
@@ -41,6 +42,22 @@ extension OrderDetailViewModel {
                 self.delegate?.updateOrder(order: order)
             case .failure(let error):
                 self.delegate?.failure(message: error.localizedDescription)
+            }
+        }
+    }
+}
+
+//MARK: Update Order
+extension OrderDetailViewModel {
+   private func updateOrder(order : Order) {
+        var order = order
+        order.customerCharged = true
+        FirebaseClient.shared.updateOrder(order: order) { result in
+            switch result {
+            case .success(_):
+            self.delegate?.chargeCustomerSuccess()
+            case .failure(let error):
+            self.delegate?.failure(message: error.localizedDescription)
             }
         }
     }

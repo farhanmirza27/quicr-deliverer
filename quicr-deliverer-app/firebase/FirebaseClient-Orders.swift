@@ -79,7 +79,6 @@ extension FirebaseClient : FirebaseClientOrderProtocol {
     
     
     func loadOrders(completion: @escaping (Result<[Order], Error>) -> Void) {
-       // guard let userId = Auth.auth().currentUser?.uid else { return}
         db.collection(FirebaseDocRefs.orders.rawValue).getDocuments { data,error in
             if let error = error {
                 completion(.failure(error))

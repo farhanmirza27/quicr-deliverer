@@ -32,9 +32,11 @@ struct Order : Codable {
     // stripe info
     var stripeCustomerId : String?
     var stripePaymentId  : String?
+    var customerCharged  : Bool?
     
     // deliverer info
     var delivererId : String?
+    var deliveryTime : Date
     
     func getItemsTotal() -> Double {
         var total : Double = 0.0
@@ -66,6 +68,7 @@ struct Order : Codable {
     func getDeliveryFee() -> String {
         return "£" + String(format: "%.2f", quicrFee)
     }
+    
     func getOrderDate() -> String {
         return timeStamp.toString(dateFormat: "HH:mm E, d MMM y")
     }

@@ -26,7 +26,7 @@ class HomeViewModel {
         FirebaseClient.shared.loadOrderRequests { result in
             switch result {
             case .success(let orders):
-                self.delegate?.newOrderRequests(orders: orders)
+                self.delegate?.newOrderRequests(orders: orders.sorted(by: { $0.timeStamp.compare($1.timeStamp) == .orderedAscending}))
             case .failure(let error):
                 self.delegate?.failure(message: error.localizedDescription)
             }
@@ -37,7 +37,7 @@ class HomeViewModel {
         FirebaseClient.shared.loadOrders { result in
             switch result {
             case .success(let orders):
-                self.delegate?.success(orders: orders)
+                self.delegate?.success(orders: orders.sorted(by: { $0.timeStamp.compare($1.timeStamp) == .orderedAscending}).filter({ $0.status != OrderStatus.delivered}))
                 self.addOrderObserver()
             case .failure(let error):
                 self.delegate?.failure(message: error.localizedDescription)
@@ -49,7 +49,7 @@ class HomeViewModel {
         FirebaseClient.shared.addOrderObserver { result in
             switch result {
             case .success(let orders):
-                self.delegate?.success(orders: orders)
+                self.delegate?.success(orders: orders.sorted(by: { $0.timeStamp.compare($1.timeStamp) == .orderedAscending}).filter({ $0.status != OrderStatus.delivered}))
                 self.loadNewOrdersRequests()
             case .failure(let error):
                 self.delegate?.failure(message: error.localizedDescription)

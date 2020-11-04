@@ -25,6 +25,7 @@ class TableHeaderView : UIView {
         NSLayoutConstraint.activate([
             headerLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 16),
             headerLabel.topAnchor.constraint(equalTo: topAnchor),
+            headerLabel.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -16),
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }

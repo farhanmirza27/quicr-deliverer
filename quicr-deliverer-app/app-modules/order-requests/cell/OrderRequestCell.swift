@@ -9,10 +9,10 @@ import UIKit
 
 class OrderRequestCell : TableViewBaseCell {
     
-    var deliveryTimeLabel = UIComponents.shared.label(text: "Items: 5",fontName: FontName.Bold,fontSize: 13,color: AppTheme.primaryColor)
-    var deliveryAddress = UIComponents.shared.label(text: "134 Central Park Road, London, E63DN",fontSize: 13)
-    var deliverAtLabel = UIComponents.shared.label(text: "Delivery Address:",fontName: FontName.Bold,fontSize: 13,color: AppTheme.blue)
-    var totalLabel = UIComponents.shared.label(text: "£34.56",fontName: FontName.Bold)
+    var deliveryTimeLabel = UIComponents.shared.label(text: "",fontName: FontName.Bold,fontSize: 13,color: AppTheme.primaryColor)
+    var deliveryAddress = UIComponents.shared.label(text: "",fontSize: 13)
+    var deliverAtLabel = UIComponents.shared.label(text: "",fontName: FontName.Bold,fontSize: 13,color: AppTheme.blue)
+    var totalLabel = UIComponents.shared.label(text: "",fontName: FontName.Bold)
     var container = UIComponents.shared.container(bgColor: .white, cornerRadius: 10)
     var acceptBtn = UIComponents.shared.button(title: "Accept Order",fontSize: 13)
     
@@ -21,7 +21,7 @@ class OrderRequestCell : TableViewBaseCell {
             guard let order = order else {return}
             deliveryAddress.text = order.customerAddress.getAddressString()
             totalLabel.text = order.getTotal()
-            deliveryTimeLabel.text = "Deliver Today at 4:30 PM"
+            deliveryTimeLabel.text = "Deliver Today at \(order.deliveryTime.toString(dateFormat: "HH:mm"))"
         }
     }
     
