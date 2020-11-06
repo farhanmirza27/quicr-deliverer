@@ -37,7 +37,8 @@ class OrderRequestsViewModel {
         FirebaseClient.shared.acceptOrder(order: order) { result in
             switch result {
             case .success(_):
-                PushNotificationSender().sendPushNotification(to: order.userId, title: "Order Update", body: "Your order has been accepted")
+                guard let orderId = order.id else {return}
+                PushNotificationSender().sendPushNotification(to: order.userId, title: "Order Update", body: "Your order has been accepted", orderId: orderId)
                 self.delegate?.acceptOrderSucess(order : order)
             case .failure(let error):
             self.delegate?.failure(message: error.localizedDescription)

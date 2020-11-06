@@ -38,6 +38,14 @@ struct Order : Codable {
     var delivererId : String?
     var deliveryTime : Date
     
+    // requires action
+    var needUserAction : Bool?
+    var actionStartTime : Date?
+    var actionEndTime : Date?
+}
+
+extension Order {
+    
     func getItemsTotal() -> Double {
         var total : Double = 0.0
         for item in items {

@@ -21,7 +21,8 @@ class OrderStatusViewModel {
         FirebaseClient.shared.updateOrder(order: order) { result in
             switch result {
             case .success(_):
-                PushNotificationSender().sendPushNotification(to: order.userId, title: "Order Update", body: status.rawValue)
+                guard let orderId = order.id else {return}
+                PushNotificationSender().sendPushNotification(to: order.userId, title: "Order Update", body: status.rawValue, orderId: orderId)
                 self.delegate?.success()
             case .failure(let error):
                 self.delegate?.failure(message: error.localizedDescription)

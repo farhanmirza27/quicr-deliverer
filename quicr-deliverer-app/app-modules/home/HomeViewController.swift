@@ -52,9 +52,9 @@ extension HomeViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch sections[section] {
         case .requests:
-            return 2
+            return 1
         case .orders:
-            return orders.count + 1
+            return orders.count
         }
     }
     
@@ -62,32 +62,14 @@ extension HomeViewController {
         switch sections[indexPath.section] {
         case .requests:
             let cell = LabelCell()
-            if indexPath.row == 0 {
-                cell.titleLabel.text = "Order Requests"
-                cell.titleLabel.font = UIFont(name: FontName.Bold, size: 14)
-                cell.titleLabel.textColor = AppTheme.primaryColor
-                cell.removeSeparator()
-            }
-            else {
-                cell.titleLabel.text = orderRequestInfo
-                cell.titleLabel.textColor = AppTheme.blue
-                cell.accessoryType = .disclosureIndicator
-            }
+            cell.titleLabel.text = orderRequestInfo
+            cell.titleLabel.textColor = AppTheme.blue
+            cell.accessoryType = .disclosureIndicator
             return cell
         case .orders:
-            if indexPath.row == 0 {
-                let cell = LabelCell()
-                cell.titleLabel.text = "Active Orders"
-                cell.titleLabel.font = UIFont(name: FontName.Bold, size: 14)
-                cell.titleLabel.textColor = AppTheme.primaryColor
-                cell.removeSeparator()
-                return cell
-            }
-            else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! OrderCell
-                cell.order = orders[indexPath.row - 1]
-                return cell
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! OrderCell
+            cell.order = orders[indexPath.row]
+            return cell
         }
     }
     
@@ -97,9 +79,24 @@ extension HomeViewController {
             self.navigationController?.pushViewController(OrderRequestsViewController(), animated: true)
         case .orders:
             let controller = OrderDetailViewController()
-            controller.order = self.orders[indexPath.row - 1]
+            controller.order = self.orders[indexPath.row]
             self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+    
+     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = TableHeaderView()
+        switch sections[section] {
+        case .requests:
+            headerView.headerLabel.text = "Order Requests"
+        case .orders:
+            headerView.headerLabel.text = "Active Orders"
+        }
+        return headerView
+    }
+    
+     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
 }
 

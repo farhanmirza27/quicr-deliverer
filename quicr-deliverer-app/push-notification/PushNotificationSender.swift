@@ -9,7 +9,7 @@
 import UIKit
 
 class PushNotificationSender {
-    func sendPushNotification(to userId: String, title: String, body: String) {
+    func sendPushNotification(to userId: String, title: String, body: String, orderId: String) {
         let urlString = "https://fcm.googleapis.com/fcm/send"
         let url = NSURL(string: urlString)!
         
@@ -20,7 +20,7 @@ class PushNotificationSender {
                 let paramString: [String : Any] = ["to" : user.deviceToken ?? "",
                                                         "priority" : "high",
                                                         "notification" : ["title" : title, "body" : body],
-                                                        "data" : ["user" : ""]
+                                                        "data" : ["orderId" : orderId]
                      ]
                      let request = NSMutableURLRequest(url: url as URL)
                      request.httpMethod = "POST"
