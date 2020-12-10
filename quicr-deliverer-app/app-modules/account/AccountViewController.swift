@@ -37,7 +37,7 @@ class AccountViewController : BaseViewController {
 }
 
 extension AccountViewController {
-   
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rows.count
     }
@@ -48,13 +48,13 @@ extension AccountViewController {
         cell.accessoryType = .disclosureIndicator
         switch rows[indexPath.row] {
         case .completedOrders:
-        cell.titleLabel.text = "Completed Orders"
+            cell.titleLabel.text = "Completed Orders"
         case .myDetails:
-        cell.titleLabel.text = "My Details"
+            cell.titleLabel.text = "My Details"
         case .notifications:
-        cell.titleLabel.text = "Notifications"
+            cell.titleLabel.text = "Notifications"
         case .logout:
-        let cell = UITableViewCell()
+            let cell = UITableViewCell()
             cell.removeSeparator()
             cell.asBasicCell()
             cell.contentView.addSubViews(views: logoutBtn)
@@ -68,6 +68,15 @@ extension AccountViewController {
             return cell
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch rows[indexPath.row] {
+        case .completedOrders:
+            self.navigationController?.pushViewController(CompletedOrdersViewController(), animated: true)
+        default:
+            break
+        }
     }
 }
 

@@ -28,7 +28,7 @@ class OrderRequestCell : TableViewBaseCell {
     override func setupUI() {
         container.addShadow()
         removeSeparator()
-        addSubViews(views: container)
+        contentView.addSubViews(views: container)
         container.addSubViews(views: deliveryTimeLabel,deliverAtLabel,deliveryAddress,totalLabel,acceptBtn)
         NSLayoutConstraint.activate([
             
@@ -51,10 +51,10 @@ class OrderRequestCell : TableViewBaseCell {
             acceptBtn.bottomAnchor.constraint(equalTo: container.bottomAnchor,constant: -16),
             
             
-            container.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 16),
-            container.topAnchor.constraint(equalTo: topAnchor,constant: 16),
-            container.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -16),
-            container.bottomAnchor.constraint(equalTo: bottomAnchor,constant: 0),
+            container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
+            container.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 16),
+            container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
+            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: 0),
             container.heightAnchor.constraint(equalToConstant: 160),
     
         ])

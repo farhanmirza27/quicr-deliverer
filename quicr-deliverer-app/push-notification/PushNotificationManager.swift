@@ -13,11 +13,7 @@ import UserNotifications
 
 
 class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCenterDelegate {
-    let userId: String
-    init(userId: String) {
-        self.userId = userId
-        super.init()
-    }
+    var window : UIWindow?
     func registerForPushNotifications() {
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)

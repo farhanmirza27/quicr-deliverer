@@ -11,6 +11,7 @@ private enum Section {
     case status
     case deliveryAddress
     case items
+    case bundleOffers
     case orderTotal
     case changeOrderItems
     case chargeCustomer
@@ -18,10 +19,11 @@ private enum Section {
 }
 
 fileprivate let reuseIdentifier = "OrderItemCellId"
+fileprivate let bundleReuseIdentifier = "BundleOfferCellId"
 
 class OrderDetailViewController  : BaseViewController {
     
-    private var sections : [Section] =  [.status,.deliveryAddress,.items,.orderTotal,.changeOrderItems,.chargeCustomer]
+    private var sections : [Section] =  [.status,.deliveryAddress,.items,.bundleOffers,.orderTotal,.changeOrderItems,.chargeCustomer]
     var order  : Order?
     var viewModel = OrderDetailViewModel()
     var changeOrderBtn = UIComponents.shared.button(title: "Not Available? Inform Customer",fontSize: 13,bgColor: AppTheme.blue)
@@ -39,6 +41,7 @@ class OrderDetailViewController  : BaseViewController {
     private func setupUI() {
         navigationItem.title = "Order Detail"
         tableView.register(OrderItemCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(BundleOfferCell.self, forCellReuseIdentifier: bundleReuseIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
         chargeBtn.addTarget(self, action: #selector(didClickChargeCustomer), for: .touchUpInside)
         changeOrderBtn.addTarget(self, action: #selector(didClickChangeOrCancel(sender:)), for: .touchUpInside)
@@ -49,6 +52,7 @@ class OrderDetailViewController  : BaseViewController {
         self.startAnimating()
         self.viewModel.chargeCustomer(order: order)
     }
+    
 }
 
 extension OrderDetailViewController {
@@ -66,6 +70,9 @@ extension OrderDetailViewController {
         case .items:
             guard let orderItems = self.order?.items else {return 0}
             return orderItems.count
+        case .bundleOffers:
+            guard let bundleOffers = self.order?.bundleOffer else {return 0}
+            return bundleOffers.count
         }
     }
     
@@ -83,6 +90,10 @@ extension OrderDetailViewController {
         case .items:
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! OrderItemCell
             cell.product = self.order?.items[indexPath.row]
+            return cell
+        case .bundleOffers:
+            let cell = tableView.dequeueReusableCell(withIdentifier: bundleReuseIdentifier, for: indexPath) as! BundleOfferCell
+            cell.bundleOffer = self.order?.bundleOffer[indexPath.row]
             return cell
         case .orderTotal:
             let cell = OrderTotalCell()
@@ -131,6 +142,8 @@ extension OrderDetailViewController {
             headerView.headerLabel.text = "Delivery Address"
         case .items:
             headerView.headerLabel.text = "Order Items"
+        case .bundleOffers:
+            headerView.headerLabel.text = "Bundle Offers"
         case .orderTotal:
             headerView.headerLabel.text = "Order Total"
         case .chargeCustomer,.changeOrderItems:
@@ -144,12 +157,31 @@ extension OrderDetailViewController {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch sections[section] {
+        case .items:
+            guard let orderItems = order?.items else {
+                return 0
+            }
+            if orderItems.isEmpty {
+                return 0
+            }
+            else {
+                return 40
+            }
+        case .bundleOffers:
+            guard let bundlerOffer = order?.bundleOffer else {
+                return 0
+            }
+            if bundlerOffer.isEmpty {
+                return 0
+            }
+            else {
+                return 40
+            }
         case .chargeCustomer:
             return 10
         default:
             return 40
         }
-        
     }
 }
 
@@ -184,10 +216,10 @@ extension OrderDetailViewController : OrderDetailViewModelDelegate {
         self.order = order
         
         if let _ = order.customerCharged {
-            sections = [.status,.deliveryAddress,.items,.orderTotal,.chargedInfo]
+            sections = [.status,.deliveryAddress,.items,.bundleOffers,.orderTotal,.chargedInfo]
         }
         else {
-            sections =  [.status,.deliveryAddress,.items,.orderTotal,.changeOrderItems,.chargeCustomer]
+            sections =  [.status,.deliveryAddress,.items,.bundleOffers,.orderTotal,.changeOrderItems,.chargeCustomer]
         }
         
         self.tableView.reloadData()

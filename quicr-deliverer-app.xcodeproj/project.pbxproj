@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		3CC834F3CDB0C2871DDF776E /* Pods_quicr_deliverer_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6544E311DC8714ED4298393A /* Pods_quicr_deliverer_app.framework */; };
+		A94F0514258127C1004094A2 /* CompletedOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94F0513258127C1004094A2 /* CompletedOrdersViewController.swift */; };
+		A94F051825812908004094A2 /* CompletedOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94F051725812908004094A2 /* CompletedOrderCell.swift */; };
+		A94F051C2581296D004094A2 /* CompletedOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94F051B2581296D004094A2 /* CompletedOrdersViewModel.swift */; };
+		A96099332563DB3B00D6148E /* BundleOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96099322563DB3B00D6148E /* BundleOffer.swift */; };
+		A960993625640B5900D6148E /* BundleOfferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A960993525640B5900D6148E /* BundleOfferCell.swift */; };
 		A9744F792547075300C28E20 /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9744F782547075300C28E20 /* OrderDetailViewController.swift */; };
 		A9744F7D25470E9A00C28E20 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9744F7C25470E9A00C28E20 /* TableHeaderView.swift */; };
 		A9744F8125470FAE00C28E20 /* OrderStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9744F8025470FAE00C28E20 /* OrderStatusCell.swift */; };
@@ -66,6 +71,12 @@
 		0E1DCE93BE954D84BAACF04C /* Pods-quicr-deliverer-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quicr-deliverer-app.debug.xcconfig"; path = "Target Support Files/Pods-quicr-deliverer-app/Pods-quicr-deliverer-app.debug.xcconfig"; sourceTree = "<group>"; };
 		61545CEB1B58C7BC8879BD6D /* Pods-quicr-deliverer-app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-quicr-deliverer-app.release.xcconfig"; path = "Target Support Files/Pods-quicr-deliverer-app/Pods-quicr-deliverer-app.release.xcconfig"; sourceTree = "<group>"; };
 		6544E311DC8714ED4298393A /* Pods_quicr_deliverer_app.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_quicr_deliverer_app.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A94F04EB2581112C004094A2 /* quicr-deliverer-app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "quicr-deliverer-app.entitlements"; sourceTree = "<group>"; };
+		A94F0513258127C1004094A2 /* CompletedOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedOrdersViewController.swift; sourceTree = "<group>"; };
+		A94F051725812908004094A2 /* CompletedOrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedOrderCell.swift; sourceTree = "<group>"; };
+		A94F051B2581296D004094A2 /* CompletedOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedOrdersViewModel.swift; sourceTree = "<group>"; };
+		A96099322563DB3B00D6148E /* BundleOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleOffer.swift; sourceTree = "<group>"; };
+		A960993525640B5900D6148E /* BundleOfferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleOfferCell.swift; sourceTree = "<group>"; };
 		A9744F782547075300C28E20 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
 		A9744F7C25470E9A00C28E20 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
 		A9744F8025470FAE00C28E20 /* OrderStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatusCell.swift; sourceTree = "<group>"; };
@@ -134,6 +145,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A94F0512258127A4004094A2 /* completed-orders */ = {
+			isa = PBXGroup;
+			children = (
+				A94F0516258128F8004094A2 /* cell */,
+				A94F0513258127C1004094A2 /* CompletedOrdersViewController.swift */,
+				A94F051B2581296D004094A2 /* CompletedOrdersViewModel.swift */,
+			);
+			path = "completed-orders";
+			sourceTree = "<group>";
+		};
+		A94F0516258128F8004094A2 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				A94F051725812908004094A2 /* CompletedOrderCell.swift */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
 		A9744F772547072B00C28E20 /* order-detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +182,7 @@
 				A9744F862547370500C28E20 /* OrderItemCell.swift */,
 				A9744FC525481FE800C28E20 /* OrderTotalCell.swift */,
 				A9DF987925515B8E0087ED73 /* ChangeOrderItemCell.swift */,
+				A960993525640B5900D6148E /* BundleOfferCell.swift */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -214,6 +244,7 @@
 		A98775BC2546DD8A0081941E /* account */ = {
 			isa = PBXGroup;
 			children = (
+				A94F0512258127A4004094A2 /* completed-orders */,
 				A9744FD125483BE900C28E20 /* AccountViewController.swift */,
 			);
 			path = account;
@@ -226,6 +257,7 @@
 				A9744FE425485E0D00C28E20 /* product.swift */,
 				A9745059254AE44D00C28E20 /* User.swift */,
 				A9DF982325503D240087ED73 /* Address.swift */,
+				A96099322563DB3B00D6148E /* BundleOffer.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -268,6 +300,7 @@
 		A9B863382542E44C00FA8B78 /* quicr-deliverer-app */ = {
 			isa = PBXGroup;
 			children = (
+				A94F04EB2581112C004094A2 /* quicr-deliverer-app.entitlements */,
 				A9745086254AF14600C28E20 /* api */,
 				A9745051254AE38300C28E20 /* push-notification */,
 				A9B8635A2542E71C00FA8B78 /* data-manager */,
@@ -553,6 +586,7 @@
 			files = (
 				A9B8635E2542E7C400FA8B78 /* LoginViewController.swift in Sources */,
 				A9B863932542EB8F00FA8B78 /* UIComponents.swift in Sources */,
+				A960993625640B5900D6148E /* BundleOfferCell.swift in Sources */,
 				A9744F842547121C00C28E20 /* AddressCell.swift in Sources */,
 				A9744FEC2549850200C28E20 /* OrderRequestsViewModel.swift in Sources */,
 				A9744FF325499A2300C28E20 /* OrderDetailViewModel.swift in Sources */,
@@ -563,6 +597,8 @@
 				A9744FE525485E0D00C28E20 /* product.swift in Sources */,
 				A9B863632542E7E900FA8B78 /* BaseViewController.swift in Sources */,
 				A98775CC2546E2500081941E /* LabelCell.swift in Sources */,
+				A94F051C2581296D004094A2 /* CompletedOrdersViewModel.swift in Sources */,
+				A96099332563DB3B00D6148E /* BundleOffer.swift in Sources */,
 				A9745088254AF15A00C28E20 /* ApiClient.swift in Sources */,
 				A9DF987A25515B8F0087ED73 /* ChangeOrderItemCell.swift in Sources */,
 				A9744FC625481FE800C28E20 /* OrderTotalCell.swift in Sources */,
@@ -578,11 +614,13 @@
 				A9744FD8254844CB00C28E20 /* LoginViewModel.swift in Sources */,
 				A9B8636E2542E86F00FA8B78 /* Font.swift in Sources */,
 				A9744FCE2548241000C28E20 /* OrderRequestCell.swift in Sources */,
+				A94F0514258127C1004094A2 /* CompletedOrdersViewController.swift in Sources */,
 				A9744F792547075300C28E20 /* OrderDetailViewController.swift in Sources */,
 				A9744FD225483BE900C28E20 /* AccountViewController.swift in Sources */,
 				A9B8636A2542E84700FA8B78 /* AppTheme.swift in Sources */,
 				A974505A254AE44D00C28E20 /* User.swift in Sources */,
 				A9B8633A2542E44C00FA8B78 /* AppDelegate.swift in Sources */,
+				A94F051825812908004094A2 /* CompletedOrderCell.swift in Sources */,
 				A9744F7D25470E9A00C28E20 /* TableHeaderView.swift in Sources */,
 				A9744FDF25485D4A00C28E20 /* HomeViewModel.swift in Sources */,
 				A9745053254AE39C00C28E20 /* PushNotificationManager.swift in Sources */,
@@ -731,6 +769,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "quicr-deliverer-app/quicr-deliverer-app.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R95P2NMLBF;
 				INFOPLIST_FILE = "quicr-deliverer-app/Info.plist";
@@ -752,6 +791,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "quicr-deliverer-app/quicr-deliverer-app.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R95P2NMLBF;
 				INFOPLIST_FILE = "quicr-deliverer-app/Info.plist";

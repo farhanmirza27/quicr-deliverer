@@ -22,9 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Stripe.setDefaultPublishableKey("pk_test_96kmOXhYEiFVcMa0KRiJAxE0")
         IQKeyboardManager.shared.enable = true
         // push notifications
-        if let userId = Auth.auth().currentUser?.uid {
-            PushNotificationManager(userId: userId).registerForPushNotifications()
-        }
+        PushNotificationManager().registerForPushNotifications()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()

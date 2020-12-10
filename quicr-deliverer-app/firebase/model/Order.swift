@@ -8,11 +8,11 @@
 import Foundation
 
 enum OrderStatus : String , Codable {
-    case placed = "Placed"
-    case accepted = "Accepted"
-    case inProgress = "InProgress"
+    case placed = "Order Placed"
+    case accepted = "Order Accepted"
+    case inProgress = "Order In Progress"
     case deliveryInProgress = "Order On Way"
-    case delivered = "Delivered"
+    case delivered = "Order Delivered"
 }
 
 struct Order : Codable {
@@ -25,9 +25,12 @@ struct Order : Codable {
     var userId : String
     var customerName   : String
     var customerPhone  : String
+    var customerEmail  : String
     var customerAddress : Address
     var status : OrderStatus
     var timeStamp : Date
+    
+    var bundleOffer : [BundleOffer]
     
     // stripe info
     var stripeCustomerId : String?
@@ -57,6 +60,12 @@ extension Order {
                 total = total + (item.quicrPrice * Double(countInBasket))
             }
         }
+        
+        for item in bundleOffer {
+            guard let countInBasket = item.countInBasket else {return 0}
+            total = total + (item.total * Double(countInBasket))
+        }
+        
         return total
     }
     
@@ -66,11 +75,11 @@ extension Order {
     
     
     func getTotal() -> String {
-        return "£" + String(format: "%.2f", total)
+        return "£" + String(format: "%.2f", getOrderTotal())
     }
     
     func getSubTotal() -> String {
-        return "£" + String(format: "%.2f", subTotal)
+        return "£" + String(format: "%.2f", getItemsTotal())
     }
     
     func getDeliveryFee() -> String {

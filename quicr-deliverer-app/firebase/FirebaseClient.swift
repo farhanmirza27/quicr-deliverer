@@ -16,12 +16,14 @@ protocol FirebaseClientAuthProtocol {
     func saveUserInfo(user : User, completion : @escaping (Result<Bool,Error>) -> Void)
     func getUserInfo(uid : String,completion : @escaping (Result<User,Error>) -> Void)
     func updateDeviceToken(token: String)
+    func updateDelivererTokens(token: String)
     func signout()
 }
 
 enum FirebaseDocRefs : String {
     case users
     case orders
+    case deviceTokens
 }
 
 class FirebaseClient : FirebaseClientAuthProtocol {
@@ -46,7 +48,7 @@ class FirebaseClient : FirebaseClientAuthProtocol {
             }
             else {
                 if let uid = data?.user.uid {
-                    PushNotificationManager(userId: uid).registerForPushNotifications()
+                    PushNotificationManager().registerForPushNotifications()
                     self.getUserInfo(uid: uid) { result in
                         switch result {
                         case .success(_):
@@ -99,9 +101,21 @@ class FirebaseClient : FirebaseClientAuthProtocol {
         }
     }
     
+    func updateDelivererTokens(token : String) {
+        let deviceToken = DeviceToken(token: token)
+        do {
+           _ = try db.collection(FirebaseDocRefs.deviceTokens.rawValue).addDocument(from:deviceToken)
+        }
+        catch let error {
+            print(error)
+        }
+    
+    }
+    
     func updateDeviceToken(token: String) {
         if let user = Auth.auth().currentUser {
             db.collection(FirebaseDocRefs.users.rawValue).document(user.uid).updateData(["deviceToken" : token])
+            updateDelivererTokens(token: token)
         }
     }
     
@@ -114,4 +128,10 @@ class FirebaseClient : FirebaseClientAuthProtocol {
             print(error.localizedDescription)
         }
     }
+}
+
+
+/// device token
+struct DeviceToken : Codable {
+    let token : String
 }

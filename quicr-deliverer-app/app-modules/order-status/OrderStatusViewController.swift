@@ -77,6 +77,7 @@ class OrderStatusViewController : BaseViewController {
         radioGroup.tintColor = AppTheme.primaryColor
         radioGroup.spacing = 16
         radioGroup.itemSpacing = 16
+        radioGroup.selectedIndex = 0
     }
     
     @objc func didClickDone() {
