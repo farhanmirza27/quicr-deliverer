@@ -307,7 +307,7 @@
 				A9B863592542E70D00FA8B78 /* helpers */,
 				A9B863582542E6FE00FA8B78 /* firebase */,
 				A9B863572542E6F400FA8B78 /* app-settings */,
-				A9B863552542E6B500FA8B78 /* app-modules */,
+				A9B863552542E6B500FA8B78 /* app-scenes */,
 				A9B863422542E45200FA8B78 /* Assets.xcassets */,
 				A9B863442542E45200FA8B78 /* LaunchScreen.storyboard */,
 				A9745083254AED4E00C28E20 /* GoogleService-Info.plist */,
@@ -316,7 +316,7 @@
 			path = "quicr-deliverer-app";
 			sourceTree = "<group>";
 		};
-		A9B863552542E6B500FA8B78 /* app-modules */ = {
+		A9B863552542E6B500FA8B78 /* app-scenes */ = {
 			isa = PBXGroup;
 			children = (
 				A9744FC8254822E700C28E20 /* order-requests */,
@@ -328,7 +328,7 @@
 				A9B8635C2542E74200FA8B78 /* home */,
 				A9B8635B2542E73D00FA8B78 /* auth */,
 			);
-			path = "app-modules";
+			path = "app-scenes";
 			sourceTree = "<group>";
 		};
 		A9B863572542E6F400FA8B78 /* app-settings */ = {

@@ -48,7 +48,6 @@ class FirebaseClient : FirebaseClientAuthProtocol {
             }
             else {
                 if let uid = data?.user.uid {
-                    PushNotificationManager().registerForPushNotifications()
                     self.getUserInfo(uid: uid) { result in
                         switch result {
                         case .success(_):
@@ -92,6 +91,7 @@ class FirebaseClient : FirebaseClientAuthProtocol {
                 if let data = data?.data() {
                     let user = try! Firestore.Decoder().decode(User.self, from: data)
                     DataManager.shared.saveUser(user: user)
+                    PushNotificationManager().registerForPushNotifications()
                     completion(.success(user))
                 }
                 else {
@@ -124,6 +124,7 @@ class FirebaseClient : FirebaseClientAuthProtocol {
     func signout() {
         do {
             try Auth.auth().signOut()
+            DataManager.shared.removeUser()
         } catch let error {
             print(error.localizedDescription)
         }

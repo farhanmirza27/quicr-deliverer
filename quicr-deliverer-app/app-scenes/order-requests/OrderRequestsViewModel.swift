@@ -34,6 +34,7 @@ class OrderRequestsViewModel {
         guard let userId = Auth.auth().currentUser?.uid else {return}
         order.delivererId = userId
         order.status = OrderStatus.accepted
+        order.delivererDeviceToken = DataManager.shared.getUser()?.deviceToken ?? ""
         FirebaseClient.shared.acceptOrder(order: order) { result in
             switch result {
             case .success(_):

@@ -38,6 +38,7 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
                 return
             }
             user.deviceToken = token
+            DataManager.shared.saveUser(user: user)
             FirebaseClient.shared.updateDeviceToken(token: token)
         }
     }

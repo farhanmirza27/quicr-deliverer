@@ -26,10 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        if let _ = Auth.auth().currentUser  {
+        if let _ =  DataManager.shared.getUser() {
             window?.rootViewController = UINavigationController(rootViewController: HomeViewController())
         }
         else {
+            DataManager.shared.removeUser()
+            FirebaseClient.shared.signout()
+            UserDefaults.standard.set(true, forKey: "Launched")
             window?.rootViewController = LoginViewController()
         }
         return true

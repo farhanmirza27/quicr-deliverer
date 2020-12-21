@@ -45,6 +45,9 @@ struct Order : Codable {
     var needUserAction : Bool?
     var actionStartTime : Date?
     var actionEndTime : Date?
+    
+    // deliverer device Token for notification
+    var delivererDeviceToken : String?
 }
 
 extension Order {
